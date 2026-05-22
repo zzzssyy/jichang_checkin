@@ -16,7 +16,7 @@ def sign(order, user, pwd):
     }
     data = {
         'email': user,
-        'passwd': pwd
+        'password': pwd
     }
     try:
         print(f'===账号{order}进行登录...===')
