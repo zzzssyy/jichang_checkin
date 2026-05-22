@@ -28,8 +28,8 @@ def sign(order, user, pwd):
         res2 = session.post(url=check_url, headers=header).text
         print(res2)
         result = json.loads(res2)
-        print(result['msg'])
-        content = result['msg']
+        print(result['message'])
+        content = result['message']
         if SCKEY:
             push_url = 'https://sctapi.ftqq.com/{}.send?title=机场签到&desp={}'.format(SCKEY, content)
             requests.post(url=push_url)
