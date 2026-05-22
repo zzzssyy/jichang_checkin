@@ -24,7 +24,7 @@ def sign(order, user, pwd):
         res = session.post(url=login_url, headers=header, data=data).text
         print(res)
         response = json.loads(res)
-        print(response['msg'])
+        print(response['message'])
         res2 = session.post(url=check_url, headers=header).text
         print(res2)
         result = json.loads(res2)
