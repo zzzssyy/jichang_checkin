@@ -8,11 +8,17 @@ SCKEY = os.environ.get('SCKEY')
 login_url = url + '/api/v1/passport/auth/login'
 check_url = url + '/api/v1/user/checkin'
 
+# 前端域名（与浏览器请求保持一致）
+frontend_url = 'https://pin.dianping.men'
+
 def sign(order, user, pwd):
     session = requests.session()
     header = {
-        'origin': url,
-        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
+        'origin': frontend_url,
+        'referer': frontend_url + '/',
+        'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/148.0.0.0 Safari/537.36',
+        'accept': 'application/json, text/plain, */*',
+        'accept-language': 'zh-CN,zh;q=0.9,en;q=0.8',
     }
     data = {
         'email': user,
@@ -26,9 +32,9 @@ def sign(order, user, pwd):
         response = json.loads(res)
         print(response['message'])
 
-        # 提取token并加入header
-        token = response['data']['token']
-        header['Authorization'] = token
+        # 使用 auth_data (JWT) 作为鉴权token，无需Bearer前缀
+        auth_data = response['data']['auth_data']
+        header['authorization'] = auth_data
 
         # 进行签到
         res2 = session.post(url=check_url, headers=header).text
