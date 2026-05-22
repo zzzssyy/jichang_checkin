@@ -7,8 +7,8 @@ config = os.environ.get('CONFIG')
 # server酱
 SCKEY = os.environ.get('SCKEY')
 
-login_url = '{}/auth/login'.format(url)
-check_url = '{}/user/checkin'.format(url)
+login_url = url + '/api/v1/passport/auth/login'
+check_url = url + '/api/v1/user/checkin'
 
 def sign(order,user,pwd):
         session = requests.session()
