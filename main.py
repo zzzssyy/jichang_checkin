@@ -1,4 +1,4 @@
-import requests, json, re, os
+import requests, json, os
 
 url = os.environ.get('URL')
 EMAIL = os.environ.get('EMAIL')
@@ -25,11 +25,18 @@ def sign(order, user, pwd):
         print(res)
         response = json.loads(res)
         print(response['message'])
+
+        # 提取token并加入header
+        token = response['data']['token']
+        header['Authorization'] = token
+
+        # 进行签到
         res2 = session.post(url=check_url, headers=header).text
         print(res2)
         result = json.loads(res2)
         print(result['message'])
         content = result['message']
+
         if SCKEY:
             push_url = 'https://sctapi.ftqq.com/{}.send?title=机场签到&desp={}'.format(SCKEY, content)
             requests.post(url=push_url)
